@@ -5,9 +5,31 @@ import { HiMenu } from "react-icons/hi";
 import Avatar from "../Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
+import { motion, Variants } from "framer-motion";
 
 const UserMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const boxVariants: Variants = {
+    open: {
+      clipPath: "inset(-20% -20% -20% -20%)",
+      transition: {
+        type: "spring",
+        bounce: 0,
+        duration: 0.7,
+        delayChildren: 0.33,
+        staggerChildren: 0.22,
+      },
+    },
+    closed: {
+      clipPath: "inset(0% 0% 100% 0%)",
+      transition: {
+        type: "spring",
+        bounce: 0,
+        duration: 0.3,
+      },
+    },
+  };
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -22,25 +44,29 @@ const UserMenu = () => {
         >
           Airbnb your home
         </div>
-        <div
+        <motion.div
+          whileTap={{ scale: 0.9 }}
           onClick={toggleOpen}
-          className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
+          className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md select-none"
         >
           <HiMenu />
           <div className="hidden md:block">
             <Avatar />
           </div>
-        </div>
+        </motion.div>
       </div>
       {isOpen && (
-        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
+        <motion.div
+          variants={boxVariants}
+          initial="closed"
+          animate="open"
+          className="select-none absolute rounded-xl shadow-lg w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm"
+        >
           <div className="flex flex-col cursor-pointer">
-            <>
-              <MenuItem onClick={() => {}} label="Login" />
-              <MenuItem onClick={() => {}} label="Sign up" />
-            </>
+            <MenuItem onClick={() => {}} label="Login" />
+            <MenuItem onClick={() => {}} label="Sign up" />
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
