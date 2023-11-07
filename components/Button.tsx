@@ -9,6 +9,8 @@ interface ButtonProps {
   outline?: boolean;
   small?: boolean;
   icon?: IconType;
+  borderColor?: string;
+  textColor?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,6 +20,8 @@ const Button: React.FC<ButtonProps> = ({
   outline,
   small,
   icon: Icon,
+  borderColor = "border-rose-500",
+  textColor = "text-rose-500",
 }) => {
   return (
     <button
@@ -26,8 +30,8 @@ const Button: React.FC<ButtonProps> = ({
       className={`relative disabled:opacity-70 disabled:cursor-not-allowed hover:opacity-60 transition w-full rounded-lg flex items-center justify-center gap-2
       ${
         outline
-          ? "bh-white border-rose-500 text-rose-500"
-          : "bg-rose-500 border-rose-500 text-white"
+          ? `bh-white ${borderColor} ${textColor}`
+          : `bg-rose-500  ${borderColor} text-white`
       }
       ${
         small
