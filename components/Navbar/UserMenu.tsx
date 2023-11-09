@@ -6,10 +6,21 @@ import Avatar from "../Avatar";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import { motion, Variants } from "framer-motion";
-import useRegisterModal from "@/hooks/useRegisterModal";
 
-const UserMenu = () => {
+import useRegisterModal from "@/hooks/useRegisterModal";
+import useLoginModal from "@/hooks/useLoginModal";
+
+import { User } from "@prisma/client";
+import { signOut } from "next-auth/react";
+
+interface UserMenuProps {
+  currentUser?: User | null;
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const boxVariants: Variants = {
@@ -36,6 +47,27 @@ const UserMenu = () => {
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+
+  let menuItems = (
+    <>
+      <MenuItem onClick={loginModal.onOpen} label="Login" />
+      <MenuItem onClick={registerModal.onOpen} label="Sign up" />
+    </>
+  );
+
+  if (currentUser) {
+    menuItems = (
+      <>
+        <MenuItem onClick={() => {}} label="Home" />
+        <MenuItem onClick={() => {}} label="My trips" />
+        <MenuItem onClick={() => {}} label="My favorites" />
+        <MenuItem onClick={() => {}} label="My reservations" />
+        <MenuItem onClick={() => {}} label="My properties" />
+        <hr />
+        <MenuItem onClick={() => signOut()} label="Logout" />
+      </>
+    );
+  }
 
   return (
     <div className="relative">
@@ -64,10 +96,7 @@ const UserMenu = () => {
           animate="open"
           className="select-none absolute rounded-xl shadow-lg w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm"
         >
-          <div className="flex flex-col cursor-pointer">
-            <MenuItem onClick={() => {}} label="Login" />
-            <MenuItem onClick={registerModal.onOpen} label="Sign up" />
-          </div>
+          <div className="flex flex-col cursor-pointer">{menuItems}</div>
         </motion.div>
       )}
     </div>
