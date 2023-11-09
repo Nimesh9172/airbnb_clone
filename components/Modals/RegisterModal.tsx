@@ -1,6 +1,9 @@
 "use client";
 
 import axios from "axios";
+
+import { signIn } from "next-auth/react";
+
 import { Fragment } from "react";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
@@ -87,7 +90,7 @@ const RegisterModal = () => {
           outline
           label="Continue with Google"
           icon={FcGoogle}
-          onClick={() => {}}
+          onClick={() => signIn("google")}
         />
         <Button
           outline
@@ -95,7 +98,7 @@ const RegisterModal = () => {
           textColor="text-purple-950"
           label="Continue with Github"
           icon={AiFillGithub}
-          onClick={() => {}}
+          onClick={() => signIn("github")}
         />
       </div>
       <div
@@ -115,7 +118,6 @@ const RegisterModal = () => {
               hover:underline
             "
           >
-            {" "}
             Log in
           </span>
         </p>

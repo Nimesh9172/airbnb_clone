@@ -83,7 +83,7 @@ const LoginModal = () => {
           outline
           label="Continue with Google"
           icon={FcGoogle}
-          onClick={() => {}}
+          onClick={() => signIn("google")}
         />
         <Button
           outline
@@ -91,7 +91,7 @@ const LoginModal = () => {
           textColor="text-purple-950"
           label="Continue with Github"
           icon={AiFillGithub}
-          onClick={() => {}}
+          onClick={() => signIn("github")}
         />
       </div>
       <div
@@ -111,7 +111,6 @@ const LoginModal = () => {
               hover:underline
             "
           >
-            {" "}
             Log in
           </span>
         </p>

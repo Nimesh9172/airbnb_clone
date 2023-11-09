@@ -10,11 +10,11 @@ import { motion, Variants } from "framer-motion";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import useLoginModal from "@/hooks/useLoginModal";
 
-import { User } from "@prisma/client";
 import { signOut } from "next-auth/react";
+import { SafeUser } from "@/types";
 
 interface UserMenuProps {
-  currentUser?: User | null;
+  currentUser?: SafeUser | null;
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
@@ -29,9 +29,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       transition: {
         type: "spring",
         bounce: 0,
-        duration: 0.7,
-        delayChildren: 0.33,
-        staggerChildren: 0.22,
+        duration: 1,
+        delayChildren: 0,
+        staggerChildren: 0.1,
       },
     },
     closed: {
@@ -85,7 +85,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         >
           <HiMenu />
           <div className="hidden md:block">
-            <Avatar />
+            <Avatar src={currentUser?.image} />
           </div>
         </motion.div>
       </div>
