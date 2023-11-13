@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useLoginModal from "@/hooks/useLoginModal";
+import useRegisterModal from "@/hooks/useRegisterModal";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../Input/Input";
@@ -16,6 +17,8 @@ import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,6 +53,11 @@ const LoginModal = () => {
       }
     });
   };
+
+  const toggleModal = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className="flex flex-col gap-6">
@@ -102,16 +110,17 @@ const LoginModal = () => {
           font-light"
       >
         <p>
-          Already have an account?
+          Don't have an account?
           <span
-            onClick={loginModal.onClose}
+            onClick={toggleModal}
             className="
               text-neutral-800
               cursor-pointer 
               hover:underline
             "
           >
-            Log in
+            {" "}
+            Sign Up
           </span>
         </p>
       </div>
@@ -122,7 +131,7 @@ const LoginModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={loginModal.isOpen}
-      title="Register"
+      title="Login"
       actionLabel="Continue"
       onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

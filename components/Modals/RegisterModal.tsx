@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { signIn } from "next-auth/react";
 
@@ -10,6 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useRegisterModal from "@/hooks/useRegisterModal";
+import useLoginModal from "@/hooks/useLoginModal";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../Input/Input";
@@ -18,6 +19,8 @@ import Button from "../Button";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -37,12 +40,18 @@ const RegisterModal = () => {
 
     axios
       .post("/api/register", data)
-      .then(() => {
+      .then((response: AxiosResponse) => {
+        console.log(response);
         registerModal.onClose();
       })
       .catch((error) => {
-        console.log(error?.message);
-        toast.error(error?.message);
+        console.log(error?.response?.data?.message);
+        const response = error?.response?.data?.message;
+        if (response) {
+          toast.error(response);
+        } else {
+          toast.error(error?.message);
+        }
       })
       .finally(() => {
         setIsLoading(false);
@@ -81,6 +90,11 @@ const RegisterModal = () => {
     </div>
   );
 
+  const toggleModal = useCallback(() => {
+    loginModal.onOpen();
+    registerModal.onClose();
+  }, [loginModal, registerModal]);
+
   const footerContent = (
     <Fragment>
       <div className="flex flex-col sm:flex-row gap-4 mt-3">
@@ -111,7 +125,7 @@ const RegisterModal = () => {
         <p>
           Already have an account?
           <span
-            onClick={registerModal.onClose}
+            onClick={toggleModal}
             className="
               text-neutral-800
               cursor-pointer 

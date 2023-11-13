@@ -6,14 +6,13 @@ import Search from "./Search";
 import UserMenu from "./UserMenu";
 import { motion } from "framer-motion";
 import { SafeUser } from "@/types";
+import Categories from "./Categories";
 
 interface NavbarProps {
   currentUser?: SafeUser | null;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
-  console.log(currentUser);
-
   return (
     <motion.div
       initial={{ y: -70 }}
@@ -34,6 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           </div>
         </Container>
       </div>
+      <Categories />
     </motion.div>
   );
 };
