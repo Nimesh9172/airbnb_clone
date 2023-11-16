@@ -1,20 +1,18 @@
 "use client";
 
-import { User } from "@prisma/client";
-
 import Container from "../Container/Container";
 import Logo from "../Logo/Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
 import { motion } from "framer-motion";
+import { SafeUser } from "@/types";
+import Categories from "./Categories";
 
 interface NavbarProps {
-  currentUser?: User | null;
+  currentUser?: SafeUser | null;
 }
 
 const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
-  console.log(currentUser);
-
   return (
     <motion.div
       initial={{ y: -70 }}
@@ -26,7 +24,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
       }}
       className="fixed w-full bg-white z-10 shadow-sm"
     >
-      <div className="py-4 border-b-[1px]">
+      <div className="py-4 bor der-b-[1px]">
         <Container>
           <div className="flex flex-row items-center justify-between gap-3 md:gap-0">
             <Logo />
@@ -35,6 +33,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
           </div>
         </Container>
       </div>
+      <Categories />
     </motion.div>
   );
 };

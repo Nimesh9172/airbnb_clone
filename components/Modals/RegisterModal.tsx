@@ -1,12 +1,16 @@
 "use client";
 
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+
+import { signIn } from "next-auth/react";
+
 import { Fragment } from "react";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useRegisterModal from "@/hooks/useRegisterModal";
+import useLoginModal from "@/hooks/useLoginModal";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../Input/Input";
@@ -15,6 +19,8 @@ import Button from "../Button";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -34,12 +40,19 @@ const RegisterModal = () => {
 
     axios
       .post("/api/register", data)
-      .then(() => {
+      .then((response: AxiosResponse) => {
         registerModal.onClose();
+        toast.success("Registered successfully");
+        loginModal.onOpen();
       })
       .catch((error) => {
-        console.log(error?.message);
-        toast.error(error?.message);
+        console.log(error?.response?.data?.message);
+        const response = error?.response?.data?.message;
+        if (response) {
+          toast.error(response);
+        } else {
+          toast.error(error?.message);
+        }
       })
       .finally(() => {
         setIsLoading(false);
@@ -78,6 +91,11 @@ const RegisterModal = () => {
     </div>
   );
 
+  const toggleModal = useCallback(() => {
+    loginModal.onOpen();
+    registerModal.onClose();
+  }, [loginModal, registerModal]);
+
   const footerContent = (
     <Fragment>
       <div className="flex flex-col sm:flex-row gap-4 mt-3">
@@ -87,7 +105,7 @@ const RegisterModal = () => {
           outline
           label="Continue with Google"
           icon={FcGoogle}
-          onClick={() => {}}
+          onClick={() => signIn("google")}
         />
         <Button
           outline
@@ -95,7 +113,7 @@ const RegisterModal = () => {
           textColor="text-purple-950"
           label="Continue with Github"
           icon={AiFillGithub}
-          onClick={() => {}}
+          onClick={() => signIn("github")}
         />
       </div>
       <div
@@ -108,14 +126,13 @@ const RegisterModal = () => {
         <p>
           Already have an account?
           <span
-            onClick={registerModal.onClose}
+            onClick={toggleModal}
             className="
               text-neutral-800
               cursor-pointer 
               hover:underline
             "
           >
-            {" "}
             Log in
           </span>
         </p>

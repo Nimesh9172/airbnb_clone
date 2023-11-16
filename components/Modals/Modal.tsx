@@ -87,7 +87,7 @@ const Modal: React.FC<ModalProps> = ({
               initial="hidden"
               animate="visible"
               exit="hidden"
-              transition={{ type: "spring", stiffness: 300 }}
+              transition={{ type: "spring", damping: 10, stiffness: 100 }}
               className="translate h-full"
             >
               <div className="translate lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -112,7 +112,7 @@ const Modal: React.FC<ModalProps> = ({
                         outline
                         label={secondaryActionLabel}
                         disabled={disabled}
-                        onClick={() => {}}
+                        onClick={handleSecondaryAction}
                       />
                     )}
                     <Button

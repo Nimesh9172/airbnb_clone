@@ -7,6 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import useLoginModal from "@/hooks/useLoginModal";
+import useRegisterModal from "@/hooks/useRegisterModal";
 import Modal from "./Modal";
 import Heading from "../Heading";
 import Input from "../Input/Input";
@@ -16,6 +17,8 @@ import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -51,6 +54,11 @@ const LoginModal = () => {
     });
   };
 
+  const toggleModal = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
+
   const bodyContent = (
     <div className="flex flex-col gap-6">
       <Heading title="Welcome Back!" subtitle="Login to your account!" center />
@@ -83,7 +91,7 @@ const LoginModal = () => {
           outline
           label="Continue with Google"
           icon={FcGoogle}
-          onClick={() => {}}
+          onClick={() => signIn("google")}
         />
         <Button
           outline
@@ -91,7 +99,7 @@ const LoginModal = () => {
           textColor="text-purple-950"
           label="Continue with Github"
           icon={AiFillGithub}
-          onClick={() => {}}
+          onClick={() => signIn("github")}
         />
       </div>
       <div
@@ -102,9 +110,9 @@ const LoginModal = () => {
           font-light"
       >
         <p>
-          Already have an account?
+          Donu&apos;t have an account?
           <span
-            onClick={loginModal.onClose}
+            onClick={toggleModal}
             className="
               text-neutral-800
               cursor-pointer 
@@ -112,7 +120,7 @@ const LoginModal = () => {
             "
           >
             {" "}
-            Log in
+            Sign Up
           </span>
         </p>
       </div>
@@ -123,7 +131,7 @@ const LoginModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={loginModal.isOpen}
-      title="Register"
+      title="Login"
       actionLabel="Continue"
       onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
