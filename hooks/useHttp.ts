@@ -21,6 +21,7 @@ const useHttp = () => {
           method: requestConfig.method ? requestConfig.method : "GET",
           body: requestConfig.body ? JSON.stringify(requestConfig.body) : null,
           headers: requestConfig.headers ? requestConfig.headers : {},
+          next: { revalidate: 0 },
         });
 
         if (!response.ok) {

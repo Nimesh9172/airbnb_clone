@@ -3,7 +3,7 @@
 import useCountries from "@/hooks/useCountries";
 import { useRouter } from "next/navigation";
 
-import { SafeListing, SafeUser } from "@/types";
+import { SafeListing, SafeReservation, SafeUser } from "@/types";
 import { Reservation } from "@prisma/client";
 import { useCallback, useMemo } from "react";
 
@@ -15,7 +15,7 @@ import Button from "../Button";
 
 interface ListingCardProps {
   data: SafeListing;
-  reservation?: Reservation;
+  reservation?: SafeReservation;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionId?: string;
@@ -66,7 +66,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
     const start = new Date(reservation.startDate);
     const end = new Date(reservation.endDate);
 
-    return `${format(start, "PP")} - ${format(end, "PP")}}`;
+    return `${format(start, "PP")} - ${format(end, "PP")}`;
   }, [reservation]);
 
   return (
