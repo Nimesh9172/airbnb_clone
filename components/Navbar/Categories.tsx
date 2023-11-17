@@ -18,6 +18,7 @@ import CategoryBox from "../CategoryBox";
 import { useSearchParams, usePathname } from "next/navigation";
 import { FaSkiing } from "react-icons/fa";
 import { IoDiamond } from "react-icons/io5";
+import { Variants, motion } from "framer-motion";
 
 export const categories = [
   {
@@ -108,9 +109,29 @@ const Categories = () => {
     return null;
   }
 
+  const boxVariants: Variants = {
+    open: {
+      transition: {
+        duration: 0.5,
+        delayChildren: 0,
+        staggerChildren: 0.1,
+      },
+    },
+    closed: {
+      transition: {
+        duration: 0.3,
+      },
+    },
+  };
+
   return (
     <Container>
-      <div className="pt-4 flex flex-row items-center justify-between overflow-x-auto">
+      <motion.div
+        // variants={boxVariants}
+        // initial="closed"
+        // animate="open"
+        className="pt-4 flex flex-row items-center justify-between overflow-x-auto"
+      >
         {categories.map((item) => (
           <CategoryBox
             key={item.label}
@@ -119,7 +140,7 @@ const Categories = () => {
             icon={item.icon}
           />
         ))}
-      </div>
+      </motion.div>
     </Container>
   );
 };
