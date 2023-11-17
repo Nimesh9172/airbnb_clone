@@ -14,6 +14,9 @@ import SearchModal from "@/components/Modals/SearchModal";
 export const metadata: Metadata = {
   title: "Airbnb",
   description: "Holiday Homes & Apartment Rentals",
+  icons: {
+    icon: "/favicon.ico ",
+  },
 };
 
 const font = Nunito({
