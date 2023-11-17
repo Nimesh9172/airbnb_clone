@@ -1,5 +1,7 @@
 "use client";
 
+import { Variants, motion } from "framer-motion";
+
 import { IconType } from "react-icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
@@ -10,6 +12,15 @@ interface CategoryBoxProps {
   label: string;
   selected?: boolean;
 }
+
+const itemVariants: Variants = {
+  open: {
+    opacity: 1,
+    x: 0,
+    transition: { type: "just" },
+  },
+  closed: { opacity: 0, x: -20, transition: { duration: 0.1 } },
+};
 
 const CategoryBox: React.FC<CategoryBoxProps> = ({
   icon: Icon,
@@ -47,9 +58,11 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
   }, [label, params, router]);
 
   return (
-    <div
+    <motion.div
+      // variants={itemVariants}
       onClick={queryClickHandler}
-      className={`flex flex-col items-center justify-center gap-2 p-3 border-b-2 hover:text-neutral-800 hover:border-b-neutral-300 transition cursor-pointer 
+      whileTap={{ scale: 0.8 }}
+      className={`flex flex-col items-center justify-center gap-2 p-3 border-b-2 hover:text-neutral-800 hover:border-b-neutral-300  cursor-pointer 
     ${
       selected
         ? "border-b-neutral-800 hover:border-b-neutral-800 text-neutral-800"
@@ -59,7 +72,7 @@ const CategoryBox: React.FC<CategoryBoxProps> = ({
     >
       <Icon size={26} />
       <div className="font-medium text-sm">{label}</div>
-    </div>
+    </motion.div>
   );
 };
 
