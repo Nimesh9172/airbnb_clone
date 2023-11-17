@@ -52,7 +52,8 @@ const Search = () => {
       onClick={searchModal.onOpen}
       initial={{ scale: 0.5 }}
       animate={{ scale: 1 }}
-      className="border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md transition cursor-pointer"
+      whileTap={{ scale: 0.9 }}
+      className="border-[1px] w-full md:w-auto py-2 rounded-full shadow-sm hover:shadow-md  cursor-pointer"
     >
       <div className="flex flex-row items-center justify-between">
         <div className="text-sm font-semibold sm:px-6 pl-4">
